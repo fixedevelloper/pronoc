@@ -7,8 +7,8 @@ import LayoutWrapper from "./components/layout/LayoutWrapper";
 
 export const metadata = {
     title: {
-        template: "%s | Easy Paris",
-        default: "Easy Paris",
+        template: "%s | Prono crew",
+        default: "Prono crew",
     },
     description: "Application de pronostics football facile",
 };

@@ -74,7 +74,7 @@ export default function Register() {
           {/* Texte */}
           <div className="absolute text-center px-6">
             <h1 className="text-white text-5xl font-extrabold drop-shadow-lg">
-              Easy Paris
+              Prono crew
             </h1>
             <p className="text-gray-200 mt-4 text-lg max-w-md mx-auto font-light">
               Rejoignez la plateforme la plus fun pour faire vos pronostics foot !

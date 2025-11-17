@@ -59,7 +59,7 @@ export default function Login() {
           <div className="absolute inset-0 bg-black/50"></div>
           <div className="absolute text-center px-6">
             <h1 className="text-white text-5xl font-extrabold drop-shadow-lg">
-              Easy Paris
+              Prono crew
             </h1>
             <p className="text-gray-200 mt-4 text-lg max-w-md mx-auto font-light">
               Connectez-vous pour rejoindre les pots et faire vos pronostics foot !

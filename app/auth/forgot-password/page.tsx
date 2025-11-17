@@ -67,7 +67,7 @@ export default function ForgotPassword() {
           />
           <div className="absolute inset-0 bg-black/50"></div>
           <div className="absolute text-center px-6">
-            <h1 className="text-white text-5xl font-extrabold drop-shadow-lg">Easy Paris</h1>
+            <h1 className="text-white text-5xl font-extrabold drop-shadow-lg">Prono crew</h1>
             <p className="text-gray-200 mt-4 text-lg max-w-md mx-auto font-light">
               Récupérez votre mot de passe et continuez à faire vos pronostics facilement.
             </p>

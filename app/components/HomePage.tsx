@@ -13,7 +13,7 @@ export default function HomePage() {
                     <div className="flex justify-center">
                         <img
                             src="/images/hero.webp"
-                            alt="Easy Paris illustration"
+                            alt="Prono crew illustration"
                             width={1050}
                             height={650}
                             className="drop-shadow-2xl rounded-xl animate-fadeIn"
@@ -26,7 +26,7 @@ export default function HomePage() {
                            Prono crew
                         </h1>
                         <p className="text-lg md:text-xl opacity-90 max-w-xl text-theme">
-                            Analysez. Pronostiquez. Gagnez. Easy Paris vous donne les meilleurs outils
+                            Analysez. Pronostiquez. Gagnez. Prono crew vous donne les meilleurs outils
                             pour maximiser vos chances de profit chaque jour — stats avancées, communautés, challenges et pots à rejoindre en un clic.
                         </p>
 
@@ -80,7 +80,7 @@ export default function HomePage() {
             {/* TÉMOIGNAGES */}
             <section className="py-20 bg-gray-50 bg-card rounded-2xl mt-10">
                 <div className="max-w-12xl mx-auto px-6 text-center">
-                    <h2 className="text-3xl md:text-4xl font-extrabold text-blue-600">Ils parlent de Easy Paris</h2>
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-blue-600">Ils parlent de Prono crew</h2>
                     <p className="mt-2 text-gray-600 dark:text-gray-300 text-lg text-theme">Découvrez ce que pensent nos utilisateurs</p>
 
                     <div className="mt-12 grid gap-8 md:grid-cols-3">
@@ -136,7 +136,7 @@ export default function HomePage() {
 
             {/* FOOTER */}
             <footer className="py-10 text-center text-theme text-sm">
-                Easy Paris © {new Date().getFullYear()}. Tous droits réservés.
+                Prono crew © {new Date().getFullYear()}. Tous droits réservés.
             </footer>
         </div>
 
