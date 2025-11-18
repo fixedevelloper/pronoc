@@ -73,12 +73,14 @@ export default function Login() {
 
             {/* Logo */}
             <div className="flex justify-center">
+              <Link href='/'>
+                <img
+                    src={theme === "dark" ? "/images/logo-dark.png" : "/images/logo.png"}
+                    alt="PronoCrew Logo"
+                    className="h-16 w-auto"
+                />
+              </Link>
 
-              <img
-                  src={theme === "dark" ? "/images/logo-dark.png" : "/images/logo.png"}
-                  alt="PronoCrew Logo"
-                  className="h-16 w-auto"
-              />
             </div>
 
             <h2 className="text-3xl font-bold text-center text-gray-800 text-theme">

@@ -83,14 +83,16 @@ export default function Register() {
         </div>
 
         {/* COLONNE DROITE → Formulaire */}
-        <div className="bg-white dark:bg-gray-900 flex items-center justify-center px-6 py-10">
+        <div className="bg-card flex items-center justify-center px-6 py-10">
           <div className="w-full max-w-md space-y-6">
-            <img
-                src={theme === "dark" ? "/images/logo-dark.png" : "/images/logo.png"}
-                alt="PronoCrew Logo"
-                className="h-16 w-auto"
-            />
-            <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
+            <Link href='/'>
+              <img
+                  src={theme === "dark" ? "/images/logo-dark.png" : "/images/logo.png"}
+                  alt="PronoCrew Logo"
+                  className="h-16 w-auto"
+              />
+            </Link>
+            <h2 className="text-3xl font-bold text-center text-gray-800">
               Créer un compte
             </h2>
 
@@ -101,7 +103,7 @@ export default function Register() {
                   placeholder="Nom"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800 dark:text-gray-100"
+                  className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50  p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800"
               />
 
               <input
@@ -109,7 +111,7 @@ export default function Register() {
                   placeholder="Numéro de téléphone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800 dark:text-gray-100"
+                  className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50  p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800"
               />
 
               <input
@@ -117,7 +119,7 @@ export default function Register() {
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800 dark:text-gray-100"
+                  className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50  p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800 "
               />
 
               <input
@@ -125,7 +127,7 @@ export default function Register() {
                   placeholder="Mot de passe"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800 dark:text-gray-100"
+                  className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800"
               />
 
               {error && <p className="text-red-500 text-sm text-center">{error}</p>}

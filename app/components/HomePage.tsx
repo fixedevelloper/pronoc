@@ -4,7 +4,7 @@
 
 export default function HomePage() {
     return (
-        <div className="space-y-24 mt-10">
+        <div className="space-y-24 mt-2">
 
             {/* HERO */}
             <section className="py-24  text-theme">
@@ -22,29 +22,32 @@ export default function HomePage() {
 
                     {/* TEXTE + CTA */}
                     <div className="text-center md:text-left space-y-6 animate-fadeIn text-theme">
-                        <h1 className="text-5xl md:text-6xl font-extrabold leading-tight text-theme">
-                           Prono crew
+
+                        <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-theme">
+                            PronoCrew : pronostique avec ta team !
                         </h1>
+
                         <p className="text-lg md:text-xl opacity-90 max-w-xl text-theme">
-                            Analysez. Pronostiquez. Gagnez. Prono crew vous donne les meilleurs outils
-                            pour maximiser vos chances de profit chaque jour — stats avancées, communautés, challenges et pots à rejoindre en un clic.
+                            Rejoignez une communauté de passionnés, participez aux pots entre amis,
+                            partagez vos analyses et vibrez ensemble à chaque match.
+                        </p>
+
+                        <p className="text-base md:text-lg opacity-90 max-w-xl text-theme">
+                            Des outils simples, des challenges quotidiens, une ambiance 100% foot
+                            et des gains à la clé. PronoCrew, c’est le pronostic version fun.
                         </p>
 
                         <div className="flex flex-col sm:flex-row sm:justify-start justify-center gap-4 pt-6">
-                            <a
-                                href="/download"
-                                className="px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow hover:shadow-lg transition"
-                            >
+                            <a href="/download" className="px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow hover:shadow-lg transition">
                                 Télécharger l'application
                             </a>
-                            <a
-                                href="/pots"
-                                className="px-6 py-3 bg-blue-900 font-semibold rounded-lg shadow hover:shadow-lg transition text-white"
-                            >
+                            <a href="/pots" className="px-6 py-3 bg-blue-900 text-white font-semibold rounded-lg shadow hover:shadow-lg transition">
                                 Rejoindre un pot
                             </a>
                         </div>
+
                     </div>
+
                 </div>
             </section>
 
@@ -72,7 +75,7 @@ export default function HomePage() {
                 ].map((stat, i) => (
                     <div key={i} className="p-8 bg-card shadow-lg rounded-lg hover:scale-105 transition-transform duration-300">
                         <div className="text-4xl font-extrabold text-blue-600">{stat.number}</div>
-                        <p className="mt-2 text-gray-600 dark:text-gray-300">{stat.label}</p>
+                        <p className="mt-2 text-gray-600">{stat.label}</p>
                     </div>
                 ))}
             </section>
@@ -81,7 +84,7 @@ export default function HomePage() {
             <section className="py-20 bg-gray-50 bg-card rounded-2xl mt-10">
                 <div className="max-w-12xl mx-auto px-6 text-center">
                     <h2 className="text-3xl md:text-4xl font-extrabold text-blue-600">Ils parlent de Prono crew</h2>
-                    <p className="mt-2 text-gray-600 dark:text-gray-300 text-lg text-theme">Découvrez ce que pensent nos utilisateurs</p>
+                    <p className="mt-2 text-gray-600">Découvrez ce que pensent nos utilisateurs</p>
 
                     <div className="mt-12 grid gap-8 md:grid-cols-3">
                         {[1,2,3].map((i) => (

@@ -1,9 +1,15 @@
 "use client";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import AccountBalance from "../../components/layout/AccountBalance";
 import AccountNavigation from "../../components/layout/AccountNavigation";
+import {useRouter} from "next/navigation";
+import {useSession} from "next-auth/react";
+import axiosServices from "../../utils/axiosServices";
+import {useSnackbar} from "notistack";
 
 export default function WithdrawPage() {
+    const { data: session, status } = useSession();
+    const router = useRouter();
     const [form, setForm] = useState({
         amount: "",
         method: "momo", // ou "om", "carte"
@@ -12,6 +18,21 @@ export default function WithdrawPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+
+    const { enqueueSnackbar } = useSnackbar();
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            router.push("/auth/login");
+        }
+    }, [status, router]);
+
+    if (status === "loading") {
+        return <p>Chargement...</p>;
+    }
+
+    if (status === "unauthenticated") {
+        return null; // redirection en cours
+    }
 
     const countries = [
         { code: "CM", name: "Cameroun" },
@@ -23,8 +44,9 @@ export default function WithdrawPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // ✔ Validation
         if (!form.amount || parseFloat(form.amount) <= 0) {
-            setError("Veuillez entrer un montant valide");
+            enqueueSnackbar("Veuillez entrer un montant valide", { variant: "warning" });
             return;
         }
 
@@ -33,27 +55,35 @@ export default function WithdrawPage() {
         setSuccess("");
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/withdraw`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
-            });
+            // ❗ NE PAS utiliser JSON.stringify → axios le fait déjà
+            const response = await axiosServices.post("/api/pay/withdraw", form);
 
-            const data = await res.json();
+            const data = response.data;
 
-            if (data.error) {
-                setError(data.error);
+            if (data.referenceId) {
+                enqueueSnackbar("✅ Retrait effectué avec succès", { variant: "success" });
+
+                // ⚠ Mise à jour du solde dans NextAuth (corrigée)
+                if (session?.user) {
+                    session.user.balance = data.balance;
+                }
+
+                router.push("/account");
             } else {
-                setSuccess("Retrait demandé avec succès !");
-                setForm({ ...form, amount: "" });
+                throw new Error("Aucune référence de paiement reçue.");
             }
         } catch (err: any) {
             console.error(err);
-            setError("Impossible de se connecter au serveur");
+
+            // ✔ Correction des messages d’erreur
+            enqueueSnackbar("❌ Retrait échoué", { variant: "error" });
+
+            setError(err.response?.data?.message || "Impossible de se connecter au serveur");
         } finally {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="max-w-8xl mx-auto mt-8 px-4 md:px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -66,13 +96,13 @@ export default function WithdrawPage() {
 
             {/* COLONNE DROITE → Formulaire */}
             <div className="md:col-span-2">
-                <div className="w-full max-w-md space-y-6 rounded-2xl p-8 shadow-xl bg-white dark:bg-gray-900">
+                <div className="w-full max-w-md space-y-6 rounded-2xl p-8 shadow-xl bg-card">
 
-                    <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
+                    <h2 className="text-3xl font-bold text-center text-theme">
                         Retrait
                     </h2>
 
-                    <p className="text-center text-gray-600 dark:text-gray-300">
+                    <p className="text-center text-theme">
                         Choisissez le montant, le pays et la méthode pour retirer votre argent.
                     </p>
 

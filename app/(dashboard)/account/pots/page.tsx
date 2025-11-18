@@ -6,6 +6,7 @@ import Link from "next/link";
 import axiosServices from "../../../utils/axiosServices";
 import AccountBalance from "../../../components/layout/AccountBalance";
 import AccountNavigation from "../../../components/layout/AccountNavigation";
+import {useRouter} from "next/navigation";
 
 interface UserPot {
     id: number;
@@ -17,8 +18,23 @@ interface UserPot {
 }
 
 export default function MyPotsPage() {
-    const { data: session } = useSession();
 
+    const { data: session, status:statut } = useSession();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (statut === "unauthenticated") {
+            router.push("/auth/login");
+        }
+    }, [statut, router]);
+
+    if (statut === "loading") {
+        return <p>Chargement...</p>;
+    }
+
+    if (statut === "unauthenticated") {
+        return null; // redirection en cours
+    }
     const [loading, setLoading] = useState(true);
     const [pots, setPots] = useState<UserPot[]>([]);
 
@@ -59,31 +75,31 @@ export default function MyPotsPage() {
            <AccountNavigation />
 
                 {/* Filtrage */}
-                <section className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow space-y-3">
+                <section className="p-4 bg-card rounded-lg shadow space-y-3">
                     <h2 className="font-semibold text-lg">Filtres</h2>
                     <input
                         type="text"
                         placeholder="Rechercher..."
-                        className="w-full p-2 rounded border dark:bg-gray-700"
+                        className="w-full p-2 rounded border"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     <div className="grid grid-cols-2 gap-2">
-                        <select className="p-2 rounded border dark:bg-gray-700" value={type} onChange={(e) => setType(e.target.value)}>
+                        <select className="p-2 rounded border" value={type} onChange={(e) => setType(e.target.value)}>
                             <option value="">Type</option>
                             <option value="pari">Pari</option>
                             <option value="score">Score</option>
                             <option value="multi">Multi</option>
                         </select>
-                        <select className="p-2 rounded border dark:bg-gray-700" value={status} onChange={(e) => setStatus(e.target.value)}>
+                        <select className="p-2 rounded border" value={status} onChange={(e) => setStatus(e.target.value)}>
                             <option value="">Statut</option>
                             <option value="open">En cours</option>
                             <option value="closed">Terminé</option>
                         </select>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
-                        <input type="date" className="p-2 rounded border dark:bg-gray-700" value={from} onChange={(e) => setFrom(e.target.value)} />
-                        <input type="date" className="p-2 rounded border dark:bg-gray-700" value={to} onChange={(e) => setTo(e.target.value)} />
+                        <input type="date" className="p-2 rounded border" value={from} onChange={(e) => setFrom(e.target.value)} />
+                        <input type="date" className="p-2 rounded border" value={to} onChange={(e) => setTo(e.target.value)} />
                     </div>
                     <button onClick={fetchPots} className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-500">Filtrer</button>
                 </section>
@@ -104,9 +120,9 @@ export default function MyPotsPage() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {pots.map((pot) => (
-                            <div key={pot.id} className="p-5 bg-white dark:bg-gray-800 rounded-lg shadow flex flex-col justify-between hover:shadow-lg transition">
+                            <div key={pot.id} className="p-5 bg-card rounded-lg shadow flex flex-col justify-between hover:shadow-lg transition">
                                 <div className="space-y-2">
-                                    <h2 className="font-semibold text-lg text-gray-900 dark:text-gray-100">{pot.name}</h2>
+                                    <h2 className="font-semibold text-lg text-gray-900">{pot.name}</h2>
                                     <p className="text-gray-600">Mise : {pot.entry_fee} €</p>
                                     <p className="text-gray-600">Participants : {pot.participants}</p>
                                     <span className={`inline-block mt-2 px-3 py-1 text-sm rounded-full font-semibold ${pot.status === "open" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>

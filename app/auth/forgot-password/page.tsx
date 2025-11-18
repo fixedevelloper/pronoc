@@ -79,11 +79,13 @@ export default function ForgotPassword() {
           <div className="w-full max-w-md space-y-6 rounded-2xl p-8 shadow-xl">
 
             {/* Logo */}
-            <img
-                src={theme === "dark" ? "/images/logo-dark.png" : "/images/logo.png"}
-                alt="PronoCrew Logo"
-                className="h-16 w-auto"
-            />
+            <Link href='/'>
+              <img
+                  src={theme === "dark" ? "/images/logo-dark.png" : "/images/logo.png"}
+                  alt="PronoCrew Logo"
+                  className="h-16 w-auto"
+              />
+            </Link>
 
             <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
               Mot de passe oublié

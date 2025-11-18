@@ -6,6 +6,7 @@ import axiosServices from "../../../utils/axiosServices";
 import Link from "next/link";
 import AccountNavigation from "../../../components/layout/AccountNavigation";
 import AccountBalance from "../../../components/layout/AccountBalance";
+import {useRouter} from "next/navigation";
 
 type TxType = "deposit" | "commission" | "win" | "withdrawal" | string;
 
@@ -22,7 +23,8 @@ type Transaction = {
 
 
 export default function AccountTransactionsPage() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+    const router = useRouter();
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState<number>(1);
@@ -35,6 +37,22 @@ export default function AccountTransactionsPage() {
     const [query, setQuery] = useState<string>("");
     const [dateFrom, setDateFrom] = useState<string>("");
     const [dateTo, setDateTo] = useState<string>("");
+
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            router.push("/auth/login");
+        }
+    }, [status, router]);
+
+    if (status === "loading") {
+        return <p>Chargement...</p>;
+    }
+
+    if (status === "unauthenticated") {
+        return null; // redirection en cours
+    }
+
+
 
     // fetch data
     const fetchTransactions = async (pageNumber = 1) => {
@@ -115,7 +133,7 @@ export default function AccountTransactionsPage() {
             <h1 className="text-2xl font-bold text-blue-600 mb-4">Mes transactions</h1>
 
             {/* Filters */}
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6">
+            <div className="bg-theme p-4 rounded-lg shadow mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                     <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="p-2 rounded border">
                         <option value="all">Tous types</option>
@@ -166,20 +184,20 @@ export default function AccountTransactionsPage() {
             </div>
 
             {/* Table */}
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+            <div className="bg-theme p-4 rounded-lg shadow">
                 {loading ? (
                     <div className="space-y-3">
                         {Array.from({ length: 6 }).map((_, i) => (
-                            <div key={i} className="animate-pulse h-12 bg-gray-200 dark:bg-gray-700 rounded" />
+                            <div key={i} className="animate-pulse h-12 bg-gray-200 rounded" />
                         ))}
                     </div>
                 ) : transactions.length === 0 ? (
-                    <p className="text-center text-gray-600 dark:text-gray-300 py-8">Aucune transaction trouvée.</p>
+                    <p className="text-center text-theme py-8">Aucune transaction trouvée.</p>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
                             <thead>
-                            <tr className="text-sm text-gray-600 dark:text-gray-300">
+                            <tr className="text-sm text-theme">
                                 <th className="py-2">Date</th>
                                 <th className="py-2">Type</th>
                                 <th className="py-2">Référence</th>
@@ -191,7 +209,7 @@ export default function AccountTransactionsPage() {
                             <tbody>
                             {transactions.map(tx => (
                                 <tr key={tx.id} className="border-t">
-                                    <td className="py-3 text-sm text-gray-600 dark:text-gray-300">{tx.created_at}</td>
+                                    <td className="py-3 text-sm text-theme">{tx.created_at}</td>
                                     <td className="py-3">
                       <span className={`px-2 py-1 rounded-full text-xs font-semibold ${typeBadge(tx.type)}`}>
                         {tx.type}
@@ -199,7 +217,7 @@ export default function AccountTransactionsPage() {
                                     </td>
                                     <td className="py-3 text-sm">{tx.reference}</td>
                                     <td className={`py-3 text-sm font-semibold ${tx.amount >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                        {tx.amount.toFixed(2)} €
+                                        {tx.amount.toFixed(2)}
                                     </td>
                                     <td className="py-3 text-sm">{tx.pot_id ?? "-"}</td>
                                     <td className="py-3">
@@ -216,12 +234,12 @@ export default function AccountTransactionsPage() {
 
                 {/* Pagination */}
                 <div className="flex items-center justify-between mt-4">
-                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                    <div className="text-sm text-gray-600">
                         Page {page} / {lastPage}
                     </div>
                     <div className="flex gap-2">
-                        <button onClick={() => onChangePage(page - 1)} disabled={page <= 1} className="px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 disabled:opacity-50">Précédent</button>
-                        <button onClick={() => onChangePage(page + 1)} disabled={page >= lastPage} className="px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 disabled:opacity-50">Suivant</button>
+                        <button onClick={() => onChangePage(page - 1)} disabled={page <= 1} className="px-3 py-1 rounded bg-gray-100 disabled:opacity-50">Précédent</button>
+                        <button onClick={() => onChangePage(page + 1)} disabled={page >= lastPage} className="px-3 py-1 rounded bg-gray-100 disabled:opacity-50">Suivant</button>
                     </div>
                 </div>
             </div>

@@ -3,9 +3,13 @@ import { useState, useEffect, useRef } from "react";
 import axiosServices from "../../../../utils/axiosServices";
 import AccountBalance from "../../../../components/layout/AccountBalance";
 import AccountNavigation from "../../../../components/layout/AccountNavigation";
+import {useRouter} from "next/navigation";
+import {useSnackbar} from "notistack";
+
 
 export default function CreatePotPage() {
     const [step, setStep] = useState(1);
+    const [potType, setPotType] = useState("");
     const [potName, setPotName] = useState("");
     const [potAmount, setPotAmount] = useState("");
     const [selectedFixtures, setSelectedFixtures] = useState<number[]>([]);
@@ -15,7 +19,8 @@ export default function CreatePotPage() {
     const [search, setSearch] = useState("");
     const observer = useRef<IntersectionObserver | null>(null);
     const lastFixtureRef = useRef<HTMLDivElement | null>(null);
-
+    const router = useRouter();
+    const { enqueueSnackbar } = useSnackbar();
     /** Load fixtures with pagination */
     const loadFixtures = async () => {
         if (loading) return;
@@ -64,10 +69,12 @@ export default function CreatePotPage() {
     /** Submit pot */
     const createPot = async () => {
         try {
-            const payload = { name: potName,entry_fee:potAmount, fixtures: selectedFixtures };
+            const payload = {type:potType, name: potName,entry_fee:potAmount, fixtures: selectedFixtures };
             await axiosServices.post("/api/pots", payload);
-
+            router.push("/account/pots");
+            enqueueSnackbar('pot cre avec success', { variant: "success" });
         } catch (e) {
+            enqueueSnackbar('une ereeur s est produite', { variant: "error" });
             console.error(e);
         }
     };
@@ -120,7 +127,7 @@ export default function CreatePotPage() {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-1">Montant a miser</label>
+                        <label className="block text-sm font-medium mb-1">Montant a miser (FCFA)</label>
                         <input
                             type="text"
                             value={potAmount}
@@ -129,6 +136,22 @@ export default function CreatePotPage() {
                             className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2
                              focus:outline-none focus:ring-2 focus:ring-blue-500 input-theme"
                         />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Type de Pot</label>
+                        <select
+                            value={potType}
+                            onChange={e => setPotType(e.target.value)}
+                            className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2
+                            focus:outline-none focus:ring-2 focus:ring-blue-500
+                             input-theme">
+                            <option>
+                                Privee
+                            </option>
+                            <option>
+                                Public
+                            </option>
+                        </select>
                     </div>
                     <button
                         disabled={!potName}
@@ -157,7 +180,7 @@ export default function CreatePotPage() {
                                     key={match.id}
                                     ref={isLast ? lastFixtureRef : null}
                                     className={`flex items-center justify-between p-4 rounded-lg shadow-sm transition
-                            ${isSelected ? "bg-blue-50 dark:bg-blue-900 border-2 border-blue-500" : "bg-card"}
+                            ${isSelected ? "bg-blue-500 text-white border-2 border-blue-500" : "bg-card"}
                         `}
                                 >
                                     {/* Infos du match */}

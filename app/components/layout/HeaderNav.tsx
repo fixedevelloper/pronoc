@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {useTheme} from "./ThemeContext";
 import {useSession} from "next-auth/react";
-import {LogInIcon} from "lucide-react";
+import {LogInIcon, UserIcon} from "lucide-react";
 
 const navItems = [
     { href: "/", label: "Accueil" },
@@ -55,21 +55,29 @@ export default function HeaderNav() {
                     {session?.user ? (
                         <Link
                             href="/account"
-                            className="text-theme hover:text-primary transition-colors duration-300"
+                            className="flex items-center gap-2 px-3 py-2 rounded-xl text-theme hover:text-white
+             hover:bg-primary transition-all duration-300 group"
                         >
-                            Mon compte
+                            <UserIcon className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                            <span className="font-medium">Mon compte</span>
                         </Link>
+
                     ) : (
-                        <Link href="/auth/login" className="text-theme hover:text-primary transition-colors duration-300">
-                            Se connecter
+                        <Link
+                            href="/auth/login"
+                            className="flex btn btn-primary items-center gap-2 px-3 py-2 rounded-xl text-theme hover:text-white
+             hover:bg-primary transition-all duration-300 group"
+                        >
+                            <LogInIcon className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                            <span className="font-medium"> Se connecter</span>
                         </Link>
                     )}
-                    <button
+                {/*    <button
                         onClick={toggleTheme}
                         className="px-2 py-1 border rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition"
                     >
                         {theme === "dark" ? "☀️" : "🌙"}
-                    </button>
+                    </button>*/}
                 </div>
 
             </div>

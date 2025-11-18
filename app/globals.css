@@ -25,8 +25,29 @@
   /* Ombrages */
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
-
 [data-theme="dark"] {
+  /* Couleurs de fond et texte */
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Couleurs principales */
+  --primary: #1d4ed8;
+  --secondary: #2563eb;
+  --accent: #f59e0b;
+
+  /* Couleurs d'état */
+  --success: #16a34a;
+  --error: #dc2626;
+  --warning: #facc15;
+
+  /* Cartes, surfaces */
+  --card-bg: #f9fafb;
+  --border-color: #e5e7eb;
+
+  /* Ombrages */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+/*[data-theme="dark"] {
   --background: #0a0a0a;
   --foreground: #ededed;
   --primary: #3b82f6;
@@ -38,7 +59,7 @@
   --card-bg: #101828;
   --border-color: #272727;
   --shadow-color: rgba(0, 0, 0, 0.5);
-}
+}*/
 
 /* ---------------------------
    Helpers Tailwind

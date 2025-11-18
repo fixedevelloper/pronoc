@@ -1,7 +1,7 @@
 import {signOut, useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
-
+import { motion } from "framer-motion";
 
 export default function AccountBalance() {
 
@@ -33,7 +33,7 @@ export default function AccountBalance() {
                 <div className="flex justify-between items-center">
                     <span className="font-medium text-gray-700 text-theme">Solde :</span>
                     <span className="bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200 px-3 py-1 rounded-full font-semibold">
-        {session?.user?.balance ?? 0} €
+        {session?.user?.balance ?? 0}
       </span>
                 </div>
             </div>
@@ -49,7 +49,7 @@ export default function AccountBalance() {
 
                 <Link
                     href="/withdraw"
-                    className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold p-2 rounded-lg shadow transition"
+                    className="w-full bg-green-600 hover:bg-green-500 text-white font-semibold p-2 rounded-lg shadow transition"
                 >
                     Retrait
                 </Link>

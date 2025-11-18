@@ -1,10 +1,29 @@
 "use client";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import AccountBalance from "../../components/layout/AccountBalance";
 import AccountNavigation from "../../components/layout/AccountNavigation";
+import {useRouter} from "next/navigation";
+import {useSession} from "next-auth/react";
+import axiosServices from "../../utils/axiosServices";
 
 
 export default function DepositPage() {
+    const { data: session, status } = useSession();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            router.push("/auth/login");
+        }
+    }, [status, router]);
+
+    if (status === "loading") {
+        return <p>Chargement...</p>;
+    }
+
+    if (status === "unauthenticated") {
+        return null; // redirection en cours
+    }
     const [form, setForm] = useState({
         amount: "",
         paymentMethod: "momo", // ou "om", "carte", etc.
@@ -34,19 +53,17 @@ export default function DepositPage() {
         setSuccess("");
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deposit`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
-            });
 
-            const data = await res.json();
+            const response = await axiosServices.post("/api/pay/deposit", JSON.stringify(form));
+            setSuccess("Dépôt effectué avec succès !");
 
-            if (data.error) {
-                setError(data.error);
+            const data = response.data; // ✅ Correction ici
+
+            if (data.referenceId) {
+                localStorage.setItem("referenceId", data.referenceId);
+                router.push("/auth/waiting-pay");
             } else {
-                setSuccess("Dépôt effectué avec succès !");
-                setForm({ ...form, amount: "" });
+                throw new Error("Aucune référence de paiement reçue.");
             }
         } catch (err: any) {
             console.error(err);
@@ -67,13 +84,13 @@ export default function DepositPage() {
 
             {/* COLONNE DROITE → Formulaire */}
             <div className="md:col-span-2">
-                <div className="w-full max-w-md space-y-6 rounded-2xl p-8 shadow-xl bg-white dark:bg-gray-900">
+                <div className="w-full max-w-md space-y-6 rounded-2xl p-8 shadow-xl bg-card">
 
-                    <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
+                    <h2 className="text-3xl font-bold text-center text-theme">
                         Dépôt
                     </h2>
 
-                    <p className="text-center text-gray-600 dark:text-gray-300">
+                    <p className="text-center text-theme">
                         Choisissez le montant, le pays et le moyen de paiement pour créditer votre compte.
                     </p>
 

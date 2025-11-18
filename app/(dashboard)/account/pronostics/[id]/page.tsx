@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import { LinePotFoot, Pot } from "../../../../types/types";
 import axiosServices from "../../../../utils/axiosServices";
 import AccountBalance from "../../../../components/layout/AccountBalance";
@@ -11,7 +11,22 @@ import AccountNavigation from "../../../../components/layout/AccountNavigation";
 export default function MyPotsDetailPage() {
     const params = useParams();
     const id = params?.id as string;
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            router.push("/auth/login");
+        }
+    }, [status, router]);
+
+    if (status === "loading") {
+        return <p>Chargement...</p>;
+    }
+
+    if (status === "unauthenticated") {
+        return null; // redirection en cours
+    }
 
     const [loading, setLoading] = useState(true);
     const [pot, setPot] = useState<Pot | null>(null);
@@ -65,7 +80,7 @@ export default function MyPotsDetailPage() {
                             return (
                                 <div
                                     key={line.id}
-                                    className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md flex flex-col gap-4 transition hover:shadow-lg"
+                                    className="p-4 bg-card rounded-lg shadow-md flex flex-col gap-4 transition hover:shadow-lg"
                                 >
                                     {/* TEAMS + SCORES */}
                                     <div className="flex items-center gap-4">
@@ -73,16 +88,16 @@ export default function MyPotsDetailPage() {
                                         {/* HOME TEAM */}
                                         <div
                                             className={`flex items-center gap-2 p-2 rounded w-full 
-                    ${line.score_home > line.score_away ? "bg-green-100 dark:bg-green-700" :
-                                                line.score_home < line.score_away ? "bg-red-100 dark:bg-red-700" :
-                                                    "bg-gray-100 dark:bg-gray-700"}`}
+                    ${line.score_home > line.score_away ? "bg-green-100" :
+                                                line.score_home < line.score_away ? "bg-red-100 " :
+                                                    "bg-gray-100"}`}
                                         >
                                             <img src={line.team_home_logo} className="w-8 h-8 rounded-full" />
                                             <span>{line.team_home}</span>
 
                                             {/* SCORE HOME */}
                                             <span
-                                                className="ml-auto font-bold px-2 py-1 rounded text-sm bg-white dark:bg-gray-900 shadow"
+                                                className="ml-auto font-bold px-2 py-1 rounded text-sm bg-white shadow"
                                             >
                     {line.score_home}
                 </span>
@@ -93,16 +108,16 @@ export default function MyPotsDetailPage() {
                                         {/* AWAY TEAM */}
                                         <div
                                             className={`flex items-center gap-2 p-2 rounded w-full 
-                    ${line.score_away > line.score_home ? "bg-green-100 dark:bg-green-700" :
-                                                line.score_away < line.score_home ? "bg-red-100 dark:bg-red-700" :
-                                                    "bg-gray-100 dark:bg-gray-700"}`}
+                    ${line.score_away > line.score_home ? "bg-green-100" :
+                                                line.score_away < line.score_home ? "bg-red-100" :
+                                                    "bg-gray-100"}`}
                                         >
                                             <img src={line.team_away_logo} className="w-8 h-8 rounded-full" />
                                             <span>{line.team_away}</span>
 
                                             {/* SCORE AWAY */}
                                             <span
-                                                className="ml-auto font-bold px-2 py-1 rounded text-sm bg-white dark:bg-gray-900 shadow"
+                                                className="ml-auto font-bold px-2 py-1 rounded text-sm bg-white shadow"
                                             >
                     {line.score_away}
                 </span>
@@ -110,7 +125,7 @@ export default function MyPotsDetailPage() {
                                     </div>
 
                                     {/* PREDICTION */}
-                                    <div className="font-semibold text-gray-700 dark:text-gray-200">
+                                    <div className="font-semibold text-gray-700">
                                         Prediction : {line.prediction ?? ''}
                                     </div>
                                 </div>
@@ -123,7 +138,7 @@ export default function MyPotsDetailPage() {
                 {/* --------- COLONNE DROITE : CLASSEMENT --------- */}
                 <div className="space-y-4">
                     <h2 className="text-lg font-semibold text-blue-600 mb-4">Classement</h2>
-                <section className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md h-max">
+                <section className="bg-white p-4 rounded-lg shadow-md h-max">
 
 
                     {loading ? (
@@ -133,7 +148,7 @@ export default function MyPotsDetailPage() {
                             {leaderboards.map((leaderboard, index) => (
                                 <li
                                     key={leaderboard.user_id}
-                                    className="flex items-center justify-between p-2 rounded hover:bg-blue-50 dark:hover:bg-gray-700 transition"
+                                    className="flex items-center justify-between p-2 rounded hover:bg-blue-50 transition"
                                 >
                                     <div className="flex items-center gap-3">
                                         <span className="font-bold w-6">{index + 1}</span>
@@ -148,7 +163,7 @@ export default function MyPotsDetailPage() {
                                         <span className="font-medium">{leaderboard.name}</span>
                                     </div>
 
-                                    <span className="font-semibold text-gray-700 dark:text-gray-200">
+                                    <span className="font-semibold text-gray-700">
                             {leaderboard.points} pts
                         </span>
                                 </li>
