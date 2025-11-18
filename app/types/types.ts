@@ -4,6 +4,7 @@ export type PotStatus = "open" | "closed" | "settled";
 export interface Pot {
     id: number;
     name: string;
+    description: string;
     distribution_rule: string;
     type: string;
     entry_fee: number;

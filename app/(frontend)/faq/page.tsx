@@ -21,7 +21,7 @@ export default function FaqPage() {
 
     const [open, setOpen] = useState(null);
 
-    const toggle = (i) => {
+    const toggle = (i:any) => {
         setOpen(open === i ? null : i);
     };
 

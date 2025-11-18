@@ -18,7 +18,7 @@ interface UserPot {
 }
 
 export default function MyPronosticPage() {
-    const { data: session, statut } = useSession();
+    const { data: session, status:statut } = useSession();
     const router = useRouter();
 
     useEffect(() => {
