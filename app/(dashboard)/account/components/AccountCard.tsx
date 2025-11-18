@@ -51,7 +51,7 @@ export default function AccountCard() {
                     </CardHeader>
                     <CardContent>
                         <p className="text-3xl font-bold text-theme">8</p>
-                        <button  href='/account/pots' className="mt-4 border px-4 py-2 rounded-lg text-theme hover:bg-muted transition">
+                        <button  className="mt-4 border px-4 py-2 rounded-lg text-theme hover:bg-muted transition">
                             Voir mes pots
                         </button>
                     </CardContent>
