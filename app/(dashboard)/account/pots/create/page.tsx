@@ -38,14 +38,14 @@ export default function CreatePotPage() {
     };
 
     /** Infinite scroll observer */
-/*    useEffect(() => {
+    useEffect(() => {
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && !loading) loadFixtures();
         });
         if (lastFixtureRef.current) observer.current.observe(lastFixtureRef.current);
         return () => observer.current?.disconnect();
-    }, [lastFixtureRef.current, loading]);*/
+    }, [lastFixtureRef.current, loading]);
 
     useEffect(() => { loadFixtures(); }, []);
 
