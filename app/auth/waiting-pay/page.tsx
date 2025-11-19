@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {useSnackbar} from "notistack";
+import {useSession} from "next-auth/react";
 
 
 export default function WaitingPaiement() {
@@ -10,7 +11,7 @@ export default function WaitingPaiement() {
   const { enqueueSnackbar } = useSnackbar();
   const [statusMessage, setStatusMessage] = useState("Validation du paiement en cours...");
   const [attempts, setAttempts] = useState(0);
-
+  const { data: session, status } = useSession();
   const CHECK_INTERVAL = 5000; // 5 secondes
   const MAX_ATTEMPTS = 12; // 1 minute
 
@@ -37,7 +38,10 @@ export default function WaitingPaiement() {
         const data = await res.json();
         if (isCancelled) return;
 
-        if (data.status === "confirmed") {
+        if (data.status === "success") {
+          if (session?.user) {
+            session.user.balance = data.balance;
+          }
           clearInterval(intervalId);
           setStatusMessage("✅ Dépôt effectué avec succès !");
           enqueueSnackbar('✅ Dépôt confirmé avec succès', { variant: "success" });
@@ -76,7 +80,7 @@ export default function WaitingPaiement() {
 
     return () => {
       isCancelled = true;
-      controller.abort();
+    //  controller.abort();
       clearInterval(intervalId);
     };
   }, [referenceId]);

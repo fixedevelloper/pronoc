@@ -8,6 +8,7 @@ import {useSnackbar} from "notistack";
 
 
 export default function CreatePotPage() {
+
     const [step, setStep] = useState(1);
     const [potType, setPotType] = useState("");
     const [potName, setPotName] = useState("");
@@ -21,6 +22,7 @@ export default function CreatePotPage() {
     const lastFixtureRef = useRef<HTMLDivElement | null>(null);
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
+
     /** Load fixtures with pagination */
     const loadFixtures = async () => {
         if (loading) return;

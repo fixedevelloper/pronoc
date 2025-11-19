@@ -11,6 +11,7 @@ export default function WithdrawPage() {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [form, setForm] = useState({
+        phone: "",
         amount: "",
         method: "momo", // ou "om", "carte"
         country: "CM",   // par défaut Cameroun
@@ -96,7 +97,7 @@ export default function WithdrawPage() {
 
             {/* COLONNE DROITE → Formulaire */}
             <div className="md:col-span-2">
-                <div className="w-full max-w-md space-y-6 rounded-2xl p-8 shadow-xl bg-card">
+                <div className="w-full max-w-2xl space-y-6 rounded-2xl p-8 shadow-xl bg-card">
 
                     <h2 className="text-3xl font-bold text-center text-theme">
                         Retrait
@@ -107,21 +108,11 @@ export default function WithdrawPage() {
                     </p>
 
                     <form onSubmit={handleSubmit} className="space-y-5">
-
-                        {/* Montant */}
-                        <input
-                            type="number"
-                            placeholder="Montant à retirer"
-                            value={form.amount}
-                            onChange={(e) => setForm({ ...form, amount: e.target.value })}
-                            className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800 dark:text-gray-100"
-                        />
-
                         {/* Pays */}
                         <select
                             value={form.country}
                             onChange={(e) => setForm({ ...form, country: e.target.value })}
-                            className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800 dark:text-gray-100"
+                            className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50  p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800"
                         >
                             {countries.map((c) => (
                                 <option key={c.code} value={c.code}>
@@ -130,11 +121,28 @@ export default function WithdrawPage() {
                             ))}
                         </select>
 
+                        {/* Montant */}
+                        <input
+                            type="number"
+                            placeholder="Montant à retirer"
+                            value={form.amount}
+                            onChange={(e) => setForm({ ...form, amount: e.target.value })}
+                            className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800"
+                        />
+
+                        {/* Phone */}
+                        <input
+                            type="text"
+                            placeholder="Telephone"
+                            value={form.phone}
+                            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                            className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800"
+                        />
                         {/* Méthode de retrait */}
                         <select
                             value={form.method}
                             onChange={(e) => setForm({ ...form, method: e.target.value })}
-                            className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800 dark:text-gray-100"
+                            className="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 p-3 rounded-lg focus:ring-2 focus:ring-[#014d74] outline-none text-gray-800"
                         >
                             <option value="momo">Mobile Money</option>
                             <option value="om">Orange Money</option>

@@ -35,7 +35,7 @@ export default function AccountCard() {
                     </CardHeader>
                     <CardContent>
                         <p className="text-3xl font-bold text-theme">{session?.user.balance} FCFA</p>
-                        <Link href='account/deposit' className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition">
+                        <Link href='/deposit' className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition">
                             Déposer <ArrowRight size={16} />
                         </Link>
                     </CardContent>
