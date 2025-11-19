@@ -73,65 +73,60 @@ export default function MyPotsDetailPage() {
                     {loading ? (
                         <p className="text-center mt-10">Chargement...</p>
                     ) : (
-                        lines.map(line => {
-                            const homeFav = line.team_home_fav === true;
-                            const awayFav = line.team_away_fav === true;
-
-                            return (
+                        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 w-full">
+                            {lines.map(line => (
                                 <div
                                     key={line.id}
                                     className="p-4 bg-card rounded-lg shadow-md flex flex-col gap-4 transition hover:shadow-lg"
                                 >
                                     {/* TEAMS + SCORES */}
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
 
                                         {/* HOME TEAM */}
                                         <div
-                                            className={`flex items-center gap-2 p-2 rounded w-full 
-                    ${line.score_home > line.score_away ? "bg-green-100" :
-                                                line.score_home < line.score_away ? "bg-red-100 " :
-                                                    "bg-gray-100"}`}
+                                            className={`flex items-center gap-2 p-2 rounded flex-1
+                        ${line.score_home > line.score_away ? "bg-green-100" :
+                                                line.score_home < line.score_away ? "bg-red-100" : "bg-gray-100"}`}
                                         >
-                                            <img src={line.team_home_logo} className="w-8 h-8 rounded-full" />
-                                            <span>{line.team_home}</span>
+                                            <img
+                                                src={line.team_home_logo}
+                                                className="w-10 h-10 sm:w-8 sm:h-8 rounded-full object-cover"
+                                            />
+                                            <span className="text-sm sm:text-base font-medium">{line.team_home}</span>
 
-                                            {/* SCORE HOME */}
-                                            <span
-                                                className="ml-auto font-bold px-2 py-1 rounded text-sm bg-white shadow"
-                                            >
-                    {line.score_home}
-                </span>
+                                            <span className="ml-auto font-bold px-2 py-1 rounded text-sm bg-white shadow">
+                        {line.score_home}
+                    </span>
                                         </div>
 
-                                        <span className="mx-2 font-bold">vs</span>
+                                        <span className="mx-auto sm:mx-2 font-bold text-lg sm:text-base">vs</span>
 
                                         {/* AWAY TEAM */}
                                         <div
-                                            className={`flex items-center gap-2 p-2 rounded w-full 
-                    ${line.score_away > line.score_home ? "bg-green-100" :
-                                                line.score_away < line.score_home ? "bg-red-100" :
-                                                    "bg-gray-100"}`}
+                                            className={`flex items-center gap-2 p-2 rounded flex-1
+                        ${line.score_away > line.score_home ? "bg-green-100" :
+                                                line.score_away < line.score_home ? "bg-red-100" : "bg-gray-100"}`}
                                         >
-                                            <img src={line.team_away_logo} className="w-8 h-8 rounded-full" />
-                                            <span>{line.team_away}</span>
+                                            <img
+                                                src={line.team_away_logo}
+                                                className="w-10 h-10 sm:w-8 sm:h-8 rounded-full object-cover"
+                                            />
+                                            <span className="text-sm sm:text-base font-medium">{line.team_away}</span>
 
-                                            {/* SCORE AWAY */}
-                                            <span
-                                                className="ml-auto font-bold px-2 py-1 rounded text-sm bg-white shadow"
-                                            >
-                    {line.score_away}
-                </span>
+                                            <span className="ml-auto font-bold px-2 py-1 rounded text-sm bg-white shadow">
+                        {line.score_away}
+                    </span>
                                         </div>
                                     </div>
 
                                     {/* PREDICTION */}
-                                    <div className="font-semibold text-gray-700">
+                                    <div className="font-semibold text-gray-700 text-sm sm:text-base">
                                         Prediction : {line.prediction ?? ''}
                                     </div>
                                 </div>
-                            );
+                            ))}
+                        </div>
 
-                        })
                     )}
                 </div>
 
