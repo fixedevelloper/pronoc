@@ -2,7 +2,7 @@
 import { SessionProvider } from "next-auth/react";
 import { SnackbarProvider } from "notistack";
 import AxiosInterceptorSetup from "../utils/AxiosInterceptorSetup";
-import {useState} from "react";
+import React, {useState} from "react";
 import ThemeProvider from "./layout/ThemeContext";
 
 export default function AppProvidersWrapper({ children }: { children: React.ReactNode }) {

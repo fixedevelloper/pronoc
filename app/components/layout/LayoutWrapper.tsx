@@ -1,30 +1,38 @@
-"use client";
+'use client';
+import { usePathname } from 'next/navigation';
+import HeaderNav from './HeaderNav';      // Frontend nav
+import BottomNav from './BottomNav';
+import React from "react";
+import AdminLayout from "../../admin/layout";     // Frontend mobile
 
-import { usePathname } from "next/navigation";
-import HeaderNav from "./HeaderNav";
-import BottomNav from "./BottomNav";
+interface Props {
+    children: React.ReactNode;
+    variant: 'frontend' | 'auth' | 'admin';
+}
 
-export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
+export default function LayoutWrapper({ children, variant }: Props) {
     const pathname = usePathname();
 
-    // Pages où header + bottomnav doivent être masqués
-    const hideLayout = pathname.startsWith("/auth/");
+    // Skip nav sur certaines pages frontend
+    const hideFrontendNav = pathname.startsWith('/frontend/special');
+
+    if (variant === 'admin') {
+        return <AdminLayout>{children}</AdminLayout>; // Sidebar pro
+    }
 
     return (
         <>
-            {!hideLayout && <HeaderNav />}
+            {variant === 'frontend' && !hideFrontendNav && <HeaderNav />}
 
-            <main
-                className={
-                    hideLayout
-                        ? "min-h-screen flex items-center justify-center"
-                        : "pt-25 pb-20 min-h-screen container mx-auto px-4"
-                }
-            >
+            <main className={
+                variant === 'auth'
+                    ? 'min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-br from-emerald-50 to-blue-50'
+                    : 'pt-20 pb-20 min-h-[calc(100vh-80px)] container mx-auto px-4 lg:px-8'
+            }>
                 {children}
             </main>
 
-            {!hideLayout && <BottomNav />}
+            {variant === 'frontend' && !hideFrontendNav && <BottomNav />}
         </>
     );
 }
