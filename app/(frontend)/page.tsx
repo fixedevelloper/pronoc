@@ -1,11 +1,17 @@
-
 import { Metadata } from "next";
-import HomePage from "../components/HomePage";
+import LayoutWrapper from "@/components/layout/LayoutWrapper";
+import React from "react";
+import HomePage from "../../components/HomePage";
 
-export const metadata: Metadata = { title: 'Accueil-pronocrew' }
+export const metadata: Metadata = {
+  title: 'Accueil | PronoCrew',
+  description: 'Pronostics football IA + paris mutuels Cameroun'
+};
+
 export default function Home() {
   return (
-   <HomePage></HomePage>
+      <LayoutWrapper variant="frontend">
+        <HomePage />
+      </LayoutWrapper>
   );
 }
-

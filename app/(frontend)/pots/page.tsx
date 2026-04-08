@@ -1,5 +1,5 @@
-import PotCard from "../../components/pots/PotCard";
-import PotsGrid from "../../components/pots/PotGrid";
+import PotCard from "../../../components/pots/PotCard";
+import PotsGrid from "../../../components/pots/PotGrid";
 
 
 export default function PotsPage() {

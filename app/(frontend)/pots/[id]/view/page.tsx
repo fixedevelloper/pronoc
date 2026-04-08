@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import axiosServices from "../../../../utils/axiosServices";
 import { LinePotFoot, Pot } from "../../../../types/types";
-import PotShareButton from "../../../../components/PotShareButton";
+import PotShareButton from "../../../../../components/PotShareButton";
 
 export default function PotViewPage() {
     const { id } = useParams();

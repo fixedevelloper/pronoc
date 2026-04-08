@@ -1,9 +1,10 @@
+import './globals.css';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { Providers } from './providers';
 import {authOptions} from "./api/auth/[...nextauth]/options";
 import React from "react";
-import LayoutWrapper from "./components/layout/LayoutWrapper";
+import LayoutWrapper from "../components/layout/LayoutWrapper";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 

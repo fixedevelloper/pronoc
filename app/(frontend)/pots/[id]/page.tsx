@@ -1,5 +1,5 @@
 "use client";
-import JoinPotPage from "../../../components/pots/JoinPotPage";
+import JoinPotPage from "../../../../components/pots/JoinPotPage";
 import {useParams} from "next/navigation";
 
 
